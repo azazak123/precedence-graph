@@ -169,7 +169,7 @@ impl PrecedenceGraph {
         let mut list = vec![0; n];
 
         while j < n {
-            let node = match self
+            let node = self
                 .graph
                 .values()
                 .map(|node| node.borrow())
@@ -195,10 +195,8 @@ impl PrecedenceGraph {
                     (node, successors)
                 })
                 .min_by(|a, b| a.1.cmp(&b.1))
-            {
-                Some((node, _successors)) => node,
-                None => return list,
-            };
+                .expect("iterator should have at least one node")
+                .0;
 
             labels.insert(node.val, j);
             list[n - j - 1] = node.val;
