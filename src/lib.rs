@@ -120,6 +120,17 @@ mod tests {
 
             let g = create_graph!(
                 Nodes: [],
+                Edges: [8 => 5, 5 => 1, 5 => 2, 5 => 3, 7 => 6, 6 => 4]
+            )
+            .unwrap();
+
+            assert!(g.is_first());
+            assert!(!g.is_second());
+            assert!(!g.is_third());
+            assert!(!g.is_quasi_interval_order());
+
+            let g = create_graph!(
+                Nodes: [],
                 Edges: [10 => 5, 10 => 8, 9 => 8, 8 => 6, 6 => 4, 4 => 2, 7 => 5, 7 => 4, 5 => 3, 3 => 1]
             )
             .unwrap();
@@ -154,6 +165,17 @@ mod tests {
             let g = create_graph!(
                 Nodes: [],
                 Edges: [1 => 2, 1 => 3, 2 => 4, 4 => 7, 7 => 8, 3 => 5, 3 => 6, 5 => 8, 6 => 8]
+            )
+            .unwrap();
+
+            assert!(g.is_first());
+            assert!(!g.is_second());
+            assert!(!g.is_third());
+            assert!(!g.is_quasi_interval_order());
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 2, 1 => 3, 2 => 4, 4 => 7, 7 => 10, 3 => 5, 5 => 6, 6 => 8, 6 => 9, 8 => 10, 9 => 10]
             )
             .unwrap();
 
