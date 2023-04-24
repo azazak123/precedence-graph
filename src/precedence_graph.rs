@@ -38,7 +38,7 @@ impl PrecedenceGraph {
             }
 
             let in_node = graph
-                .get_mut(income)
+                .get(income)
                 .cloned()
                 .unwrap_or(Rc::new(RefCell::new(Node {
                     val: *income,
@@ -47,7 +47,7 @@ impl PrecedenceGraph {
                 })));
 
             let out_node = graph
-                .get_mut(outcome)
+                .get(outcome)
                 .cloned()
                 .unwrap_or(Rc::new(RefCell::new(Node {
                     val: *outcome,
