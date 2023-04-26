@@ -242,6 +242,91 @@ mod tests {
             assert!(matches!(res[4], 1 | 2 | 3 | 4));
             assert!(matches!(res[5], 1 | 2 | 3 | 4));
             assert!(matches!(res[6], 1 | 2 | 3 | 4));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [8 => 5, 5 => 1, 5 => 2, 5 => 3, 7 => 6, 6 => 4]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert_eq!(res[0], 8);
+            assert!(matches!(res[1], 5 | 7));
+            assert!(matches!(res[2], 5 | 7));
+            assert!(matches!(res[3], 6));
+            assert!(matches!(res[4], 1 | 2 | 3 | 4));
+            assert!(matches!(res[5], 1 | 2 | 3 | 4));
+            assert!(matches!(res[6], 1 | 2 | 3 | 4));
+            assert!(matches!(res[7], 1 | 2 | 3 | 4));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 3, 2 => 3, 3 => 5, 4 => 6, 6 => 5]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 1 | 2 | 4));
+            assert!(matches!(res[1], 1 | 2 | 4));
+            assert!(matches!(res[2], 1 | 2 | 4));
+            assert!(matches!(res[3], 3 | 6));
+            assert!(matches!(res[4], 3 | 6));
+            assert!(matches!(res[5], 5));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 3, 1 => 5, 2 => 3, 2 => 6, 5 => 7, 6 => 7, 3 => 8, 7 => 9, 8 => 9]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 1 | 2));
+            assert!(matches!(res[1], 1 | 2));
+            assert!(matches!(res[2], 3 | 5 | 6));
+            assert!(matches!(res[3], 3 | 5 | 6));
+            assert!(matches!(res[4], 3 | 5 | 6));
+            assert!(matches!(res[5], 7 | 8));
+            assert!(matches!(res[6], 7 | 8));
+            assert!(matches!(res[7], 9));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 2, 1 => 3, 2 => 4, 4 => 7, 7 => 8, 3 => 5, 3 => 6, 5 => 8, 6 => 8]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 1));
+            assert!(matches!(res[1], 2 | 3));
+            assert!(matches!(res[2], 2 | 3));
+            assert!(matches!(res[3], 4));
+            assert!(matches!(res[4], 5 | 6 | 7));
+            assert!(matches!(res[5], 5 | 6 | 7));
+            assert!(matches!(res[6], 5 | 6 | 7));
+            assert!(matches!(res[7], 8));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 2, 1 => 3, 2 => 4, 4 => 7, 7 => 10, 3 => 5, 5 => 6, 6 => 8, 6 => 9, 8 => 10, 9 => 10]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 1));
+            assert!(matches!(res[1], 3));
+            assert!(matches!(res[2], 5));
+            assert!(matches!(res[3], 2 | 6));
+            assert!(matches!(res[4], 2 | 6));
+            assert!(matches!(res[5], 4));
+            assert!(matches!(res[6], 7 | 8 | 9));
+            assert!(matches!(res[7], 7 | 8 | 9));
+            assert!(matches!(res[8], 7 | 8 | 9));
+            assert!(matches!(res[9], 10));
         }
 
         #[test]
