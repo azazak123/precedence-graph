@@ -248,6 +248,19 @@ mod tests {
         fn quasi_interval_order() {
             let g = create_graph!(
                 Nodes: [],
+                Edges: [1 => 2, 4 => 5]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 1 | 4));
+            assert!(matches!(res[1], 1 | 4));
+            assert!(matches!(res[2], 2 | 5));
+            assert!(matches!(res[2], 2 | 5));
+
+            let g = create_graph!(
+                Nodes: [],
                 Edges: [1 => 4, 1 => 6, 2 => 4, 2 => 5, 2 => 6, 3 => 6, 5 => 7, 6 => 7]
             )
             .unwrap();
@@ -261,6 +274,49 @@ mod tests {
             assert!(matches!(res[4], 5 | 6));
             assert!(matches!(res[5], 4 | 7));
             assert!(matches!(res[6], 4 | 7));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 3, 2 => 3, 3 => 5, 4 => 5]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 1 | 2));
+            assert!(matches!(res[1], 1 | 2));
+            assert!(matches!(res[2], 3 | 4));
+            assert!(matches!(res[3], 3 | 4));
+            assert!(matches!(res[4], 5));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 4, 2 => 4, 3 => 4, 4 => 5, 4 => 6]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 1 | 2 | 3));
+            assert!(matches!(res[1], 1 | 2 | 3));
+            assert!(matches!(res[2], 1 | 2 | 3));
+            assert!(matches!(res[3], 4));
+            assert!(matches!(res[4], 5 | 6));
+            assert!(matches!(res[5], 5 | 6));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 4, 2 => 4, 2 => 3, 4 => 5, 3 => 5]
+            )
+            .unwrap();
+
+            let res = g.msf_list();
+
+            assert!(matches!(res[0], 2));
+            assert!(matches!(res[1], 1));
+            assert!(matches!(res[2], 3 | 4));
+            assert!(matches!(res[3], 3 | 4));
+            assert!(matches!(res[4], 5));
         }
 
         #[test]
