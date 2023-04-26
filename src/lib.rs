@@ -235,9 +235,9 @@ mod tests {
 
             let res = g.msf_list();
 
-            assert_eq!(res[0], 5);
-            assert_eq!(res[1], 7);
-            assert_eq!(res[2], 6);
+            assert!(matches!(res[0], 5));
+            assert!(matches!(res[1], 7));
+            assert!(matches!(res[2], 6));
             assert!(matches!(res[3], 1 | 2 | 3 | 4));
             assert!(matches!(res[4], 1 | 2 | 3 | 4));
             assert!(matches!(res[5], 1 | 2 | 3 | 4));
@@ -251,7 +251,7 @@ mod tests {
 
             let res = g.msf_list();
 
-            assert_eq!(res[0], 8);
+            assert!(matches!(res[0], 8));
             assert!(matches!(res[1], 5 | 7));
             assert!(matches!(res[2], 5 | 7));
             assert!(matches!(res[3], 6));
@@ -441,7 +441,7 @@ mod tests {
 
             let res = g.gc_list();
 
-            assert_eq!(res[0], 7);
+            assert!(matches!(res[0], 7));
             assert!(matches!(res[1], 5 | 6));
             assert!(matches!(res[2], 5 | 6));
             assert!(matches!(res[3], 1 | 2 | 3 | 4));
@@ -460,7 +460,7 @@ mod tests {
 
             let res = g.gc_list();
 
-            assert_eq!(res[0], 10);
+            assert!(matches!(res[0], 10));
             assert!(matches!(res[1], 9));
             assert!(matches!(res[2], 7 | 8));
             assert!(matches!(res[3], 7 | 8));
