@@ -1,5 +1,5 @@
 [package]
-name = "precedence_graph"
+name = "precedence-graph"
 version = "0.1.0"
 edition = "2021"
 
