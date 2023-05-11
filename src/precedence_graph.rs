@@ -206,4 +206,50 @@ impl PrecedenceGraph {
 
         list
     }
+
+    pub fn gc_schedule(&self, m: Vec<usize>) -> Vec<Vec<Option<u128>>> {
+        self.schedule(self.gc_list(), m)
+    }
+
+    pub fn msf_schedule(&self, m: Vec<usize>) -> Vec<Vec<Option<u128>>> {
+        self.schedule(self.msf_list(), m)
+    }
+
+    fn schedule(&self, list: Vec<u128>, m: Vec<usize>) -> Vec<Vec<Option<u128>>> {
+        let mut res = Vec::with_capacity(m.len());
+
+        let mut task_index = 0;
+
+        for n in m {
+            if task_index >= list.len() {
+                break;
+            }
+
+            let mut slot: Vec<Option<u128>> = Vec::with_capacity(n);
+
+            for &i in list.iter().skip(task_index).take(n) {
+                if slot.iter().filter(|&&v| v.is_some()).any(|&v| {
+                    self.graph
+                        .get(&i)
+                        .expect(&format!("Node {} should exist", i))
+                        .borrow()
+                        .all_predecessor()
+                        .map(|v| v.val)
+                        .contains(&v.expect(&format!("Node {:?} should not be option", v)))
+                }) {
+                    while slot.len() < n {
+                        slot.push(None);
+                    }
+                    break;
+                } else {
+                    slot.push(Some(i));
+                    task_index += 1;
+                }
+            }
+
+            res.push(slot);
+        }
+
+        res
+    }
 }
