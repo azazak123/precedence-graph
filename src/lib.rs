@@ -560,7 +560,7 @@ mod tests {
             )
             .unwrap();
 
-            let res = g.gc_schedule(vec![2, 2]);
+            let res = g.gc_schedule(&[2, 2]);
 
             assert!(matches!(
                 res[0][..],
@@ -577,7 +577,7 @@ mod tests {
             )
             .unwrap();
 
-            let res = g.msf_schedule(vec![3, 3, 2]);
+            let res = g.msf_schedule(&[3, 3, 2]);
 
             assert!(matches!(res[0][..], [Some(2), Some(1), Some(3)]));
             assert!(matches!(
@@ -598,7 +598,7 @@ mod tests {
             )
             .unwrap();
 
-            let res = g.msf_schedule(vec![3, 2, 2]);
+            let res = g.msf_schedule(&[3, 2, 2]);
 
             assert!(matches!(res[0][..], [Some(2), Some(1), None]));
             assert!(matches!(
@@ -616,7 +616,7 @@ mod tests {
             )
             .unwrap();
 
-            let res = g.gc_schedule(vec![2, 2, 2, 3]);
+            let res = g.gc_schedule(&[2, 2, 2, 3]);
             dbg!(&res);
             assert!(matches!(res[0][..], [Some(7), Some(5)] | [Some(7), None]));
             assert!(matches!(
@@ -675,7 +675,7 @@ mod tests {
             )
             .unwrap();
 
-            let res = g.gc_schedule(vec![2]);
+            let res = g.gc_schedule(&[2]);
 
             assert!(matches!(
                 res[0][..],
@@ -691,7 +691,7 @@ mod tests {
             )
             .unwrap();
 
-            let res = g.gc_schedule(vec![2, 2, 2, 2]);
+            let res = g.gc_schedule(&[2, 2, 2, 2]);
 
             assert!(matches!(
                 res[0][..],

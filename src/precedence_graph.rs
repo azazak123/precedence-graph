@@ -207,20 +207,20 @@ impl PrecedenceGraph {
         list
     }
 
-    pub fn gc_schedule(&self, m: Vec<usize>) -> Vec<Vec<Option<u128>>> {
-        self.schedule(self.gc_list(), m)
+    pub fn gc_schedule(&self, profile: &[usize]) -> Vec<Vec<Option<u128>>> {
+        self.schedule(self.gc_list(), profile)
     }
 
-    pub fn msf_schedule(&self, m: Vec<usize>) -> Vec<Vec<Option<u128>>> {
-        self.schedule(self.msf_list(), m)
+    pub fn msf_schedule(&self, profile: &[usize]) -> Vec<Vec<Option<u128>>> {
+        self.schedule(self.msf_list(), profile)
     }
 
-    fn schedule(&self, list: Vec<u128>, m: Vec<usize>) -> Vec<Vec<Option<u128>>> {
+    fn schedule(&self, list: Vec<u128>, m: &[usize]) -> Vec<Vec<Option<u128>>> {
         let mut res = Vec::with_capacity(m.len());
 
         let mut task_index = 0;
 
-        for n in m {
+        for &n in m {
             if task_index >= list.len() {
                 break;
             }
