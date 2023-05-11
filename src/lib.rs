@@ -548,6 +548,162 @@ mod tests {
         }
     }
 
+    mod schedule {
+        use super::*;
+        use crate::create_graph;
+
+        #[test]
+        fn quasi_interval_order() {
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 2, 4 => 5]
+            )
+            .unwrap();
+
+            let res = g.gc_schedule(vec![2, 2]);
+
+            assert!(matches!(
+                res[0][..],
+                [Some(1), Some(4)] | [Some(4), Some(1)]
+            ));
+            assert!(matches!(
+                res[1][..],
+                [Some(2), Some(5)] | [Some(5), Some(2)]
+            ));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 4, 1 => 6, 2 => 4, 2 => 5, 2 => 6, 3 => 6, 5 => 7, 6 => 7]
+            )
+            .unwrap();
+
+            let res = g.msf_schedule(vec![3, 3, 2]);
+
+            assert!(matches!(res[0][..], [Some(2), Some(1), Some(3)]));
+            assert!(matches!(
+                res[1][..],
+                [Some(5), Some(6), Some(4)]
+                    | [Some(5), Some(6), None]
+                    | [Some(6), Some(5), Some(4)]
+                    | [Some(6), Some(5), None]
+            ));
+            assert!(matches!(
+                res[2][..],
+                [Some(4), Some(7)] | [Some(7), Some(4)] | [Some(7)]
+            ));
+
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 4, 2 => 4, 2 => 3, 4 => 5, 3 => 5]
+            )
+            .unwrap();
+
+            let res = g.msf_schedule(vec![3, 2, 2]);
+
+            assert!(matches!(res[0][..], [Some(2), Some(1), None]));
+            assert!(matches!(
+                res[1][..],
+                [Some(3), Some(4)] | [Some(4), Some(3)]
+            ));
+            assert!(matches!(res[2][..], [Some(5)]));
+        }
+
+        #[test]
+        fn general() {
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [5 => 1, 5 => 2, 5 => 3, 7 => 6, 6 => 4]
+            )
+            .unwrap();
+
+            let res = g.gc_schedule(vec![2, 2, 2, 3]);
+            dbg!(&res);
+            assert!(matches!(res[0][..], [Some(7), Some(5)] | [Some(7), None]));
+            assert!(matches!(
+                res[1][..],
+                [Some(5), Some(1)]
+                    | [Some(5), Some(2)]
+                    | [Some(5), Some(3)]
+                    | [Some(5), Some(4)]
+                    | [Some(6), Some(1)]
+                    | [Some(6), Some(2)]
+                    | [Some(6), Some(3)]
+                    | [Some(6), Some(4)]
+                    | [Some(6), Some(5)]
+            ));
+            assert!(matches!(
+                res[2][..],
+                [Some(1), Some(2)]
+                    | [Some(1), Some(3)]
+                    | [Some(1), Some(4)]
+                    | [Some(2), Some(1)]
+                    | [Some(2), Some(3)]
+                    | [Some(2), Some(4)]
+                    | [Some(3), Some(1)]
+                    | [Some(3), Some(2)]
+                    | [Some(3), Some(4)]
+                    | [Some(4), Some(1)]
+                    | [Some(4), Some(2)]
+                    | [Some(4), Some(3)]
+            ));
+            assert!(matches!(
+                res[3][..],
+                [Some(1)]
+                    | [Some(2)]
+                    | [Some(3)]
+                    | [Some(4)]
+                    | [Some(1), Some(2)]
+                    | [Some(1), Some(3)]
+                    | [Some(1), Some(4)]
+                    | [Some(2), Some(1)]
+                    | [Some(2), Some(3)]
+                    | [Some(2), Some(4)]
+                    | [Some(3), Some(1)]
+                    | [Some(3), Some(2)]
+                    | [Some(3), Some(4)]
+                    | [Some(4), Some(1)]
+                    | [Some(4), Some(2)]
+                    | [Some(4), Some(3)]
+            ));
+        }
+
+        #[test]
+        fn small_time_amount() {
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 2, 4 => 5]
+            )
+            .unwrap();
+
+            let res = g.gc_schedule(vec![2]);
+
+            assert!(matches!(
+                res[0][..],
+                [Some(1), Some(4)] | [Some(4), Some(1)]
+            ));
+        }
+
+        #[test]
+        fn big_time_amount() {
+            let g = create_graph!(
+                Nodes: [],
+                Edges: [1 => 2, 4 => 5]
+            )
+            .unwrap();
+
+            let res = g.gc_schedule(vec![2, 2, 2, 2]);
+
+            assert!(matches!(
+                res[0][..],
+                [Some(1), Some(4)] | [Some(4), Some(1)]
+            ));
+            assert!(matches!(
+                res[1][..],
+                [Some(2), Some(5)] | [Some(5), Some(2)]
+            ));
+        }
+    }
+
     mod precedence_graph {
         use super::*;
         use crate::create_graph;
