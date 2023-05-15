@@ -589,7 +589,7 @@ mod tests {
             ));
             assert!(matches!(
                 res[2][..],
-                [Some(4), Some(7)] | [Some(7), Some(4)] | [Some(7)]
+                [Some(4), Some(7)] | [Some(7), Some(4)] | [Some(7), None]
             ));
 
             let g = create_graph!(
@@ -605,7 +605,7 @@ mod tests {
                 res[1][..],
                 [Some(3), Some(4)] | [Some(4), Some(3)]
             ));
-            assert!(matches!(res[2][..], [Some(5)]));
+            assert!(matches!(res[2][..], [Some(5), None]));
         }
 
         #[test]
@@ -617,7 +617,7 @@ mod tests {
             .unwrap();
 
             let res = g.gc_schedule(&[2, 2, 2, 3]);
-            dbg!(&res);
+
             assert!(matches!(res[0][..], [Some(7), Some(5)] | [Some(7), None]));
             assert!(matches!(
                 res[1][..],
@@ -648,22 +648,22 @@ mod tests {
             ));
             assert!(matches!(
                 res[3][..],
-                [Some(1)]
-                    | [Some(2)]
-                    | [Some(3)]
-                    | [Some(4)]
-                    | [Some(1), Some(2)]
-                    | [Some(1), Some(3)]
-                    | [Some(1), Some(4)]
-                    | [Some(2), Some(1)]
-                    | [Some(2), Some(3)]
-                    | [Some(2), Some(4)]
-                    | [Some(3), Some(1)]
-                    | [Some(3), Some(2)]
-                    | [Some(3), Some(4)]
-                    | [Some(4), Some(1)]
-                    | [Some(4), Some(2)]
-                    | [Some(4), Some(3)]
+                [Some(1), None, None]
+                    | [Some(2), None, None]
+                    | [Some(3), None, None]
+                    | [Some(4), None, None]
+                    | [Some(1), Some(2), None]
+                    | [Some(1), Some(3), None]
+                    | [Some(1), Some(4), None]
+                    | [Some(2), Some(1), None]
+                    | [Some(2), Some(3), None]
+                    | [Some(2), Some(4), None]
+                    | [Some(3), Some(1), None]
+                    | [Some(3), Some(2), None]
+                    | [Some(3), Some(4), None]
+                    | [Some(4), Some(1), None]
+                    | [Some(4), Some(2), None]
+                    | [Some(4), Some(3), None]
             ));
         }
 
@@ -701,6 +701,8 @@ mod tests {
                 res[1][..],
                 [Some(2), Some(5)] | [Some(5), Some(2)]
             ));
+            assert!(matches!(res[2][..], [None, None]));
+            assert!(matches!(res[3][..], [None, None]));
         }
     }
 

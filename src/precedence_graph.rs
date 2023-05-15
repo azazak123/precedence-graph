@@ -222,7 +222,8 @@ impl PrecedenceGraph {
 
         for &n in m {
             if task_index >= list.len() {
-                break;
+                res.push(vec![None; n]);
+                continue;
             }
 
             let mut slot: Vec<Option<u128>> = Vec::with_capacity(n);
@@ -237,14 +238,15 @@ impl PrecedenceGraph {
                         .map(|v| v.val)
                         .contains(&v.expect(&format!("Node {:?} should not be option", v)))
                 }) {
-                    while slot.len() < n {
-                        slot.push(None);
-                    }
                     break;
                 } else {
                     slot.push(Some(i));
                     task_index += 1;
                 }
+            }
+
+            while slot.len() < n {
+                slot.push(None);
             }
 
             res.push(slot);
